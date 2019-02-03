@@ -18,11 +18,14 @@ npm install -s antd-table-columndragsort
 
 使用方法
 --------
-1.引用插件
+#### 1. 引用插件
 ```
 import moveColumn from 'antd-table-columndragsort'
 ```
-2.仿照[Form](https://ant-design.gitee.io/components/form-cn/)组件的Form.create方法，包裹一层moveColumn({options})。例如：
+  
+  
+  
+#### 2. 仿照[Form](https://ant-design.gitee.io/components/form-cn/)组件的Form.create方法，包裹一层moveColumn({options})。例如：
 ```
 export default withRouter(connect(mapStateToProps, mapDispatchToProps, undefined, {
 	withRef: true
@@ -43,7 +46,12 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps, undefined
   
   
   经过moveColumn包裹的组件将自带this.props.moveColumn方法。
-3.仿照[Form](https://ant-design.gitee.io/components/form-cn/)组件的getFieldDecorator使用方法，在页面的Table组件外套一层tableFieldDecorator({options})方法。例如：
+    
+    
+    
+    
+    
+#### 3. 仿照[Form](https://ant-design.gitee.io/components/form-cn/)组件的getFieldDecorator使用方法，在页面的Table组件外套一层tableFieldDecorator({options})方法。例如：
 ```javascript
 {this.props.moveColumn.tableFieldDecorator({
   render: {
@@ -75,7 +83,7 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps, undefined
     
      
      
- 3.此时表格列头部即可左右拖动。
+ #### 4. 此时表格列头部即可左右拖动。
 
 
 
