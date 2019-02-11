@@ -1,7 +1,7 @@
 # antd-table-columndragsort
 ant-design的Table组件列拖动排序
   
-  [![image](https://img.shields.io/badge/npm-1.0.1-green.svg)](https://www.npmjs.com/package/antd-table-columndragsort)
+  [![image](https://img.shields.io/badge/npm-v1.0.2-green.svg)](https://www.npmjs.com/package/antd-table-columndragsort)
   
   
   
@@ -39,10 +39,11 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps, undefined
 **options设置：**
   
   
-|参数名|值|
-|:----|:----|
-|columns|与antd的Table里的columns参数格式相同|
-|listName|（可选）任意字符串。如需把列顺序存入到localStorage中，则配置此项。注意同项目下各个页面此值不能相同|
+|参数名|格式|值|
+|:----|:----|:----|
+|columns|Array|与antd的Table里的columns参数格式相同|
+|listName|String|（可选）任意字符串。如需把列顺序存入到localStorage中，则配置此项。注意同项目下各个页面此值不能相同|
+|borderStyle|String|（可选）拖动列的标识线CSS样式，默认为'solid 1px #1890ff'|
   
   
   经过moveColumn包裹的组件将自带this.props.moveColumn方法。
@@ -75,9 +76,9 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps, undefined
 **options设置：**
   
   
-|参数名|值|
-|:----|:----|
-|render|如果render里不会用到this.props，则无需在此处设置，直接写到moveColumn的options里即可。如果在render里需要读取this.props，则按照dataIndex分类书写render方法（详见示例）|
+|参数名|格式|值|
+|:----|:----|:----|
+|render|Object|如果render里不会用到this.props，则无需在此处设置，直接写到moveColumn的options里即可。如果在render里需要读取this.props，则按照dataIndex分类书写render方法（详见示例）|
   
   你无需再在Table组件里设置columns参数。
     
