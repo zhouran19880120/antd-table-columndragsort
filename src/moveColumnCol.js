@@ -1,8 +1,11 @@
 /**
- * antd Table组件列移动高阶组件
- * author by zhouran@qq.com
+ * antd Table组件列拖动排序高阶组件
+ * author by admin@qudaodao.com
  */
 
+import React, {
+	PureComponent
+} from 'react'
 import {
 	DragSource,
 	DropTarget,
@@ -10,7 +13,7 @@ import {
 } from 'react-dnd';
 import HTML5 from 'react-dnd-html5-backend';
 
-export default options => WrappedComponent => {
+export default (options = {}) => WrappedComponent => {
 	let dragDirection = (dragIndex, hoverIndex, initialClientOffset, clientOffset, sourceClientOffset) => {
 		const hoverMiddleX = (initialClientOffset.x - sourceClientOffset.x) / 2;
 		const hoverClientX = clientOffset.x - sourceClientOffset.x;
@@ -39,18 +42,19 @@ export default options => WrappedComponent => {
 		};
 
 		let className = restProps.className;
+		const defaultBorderStyle = 'solid 1px #1890ff';
 		if (isOver && initialClientOffset) {
 			const direction = dragDirection(dragCell.index, restProps.index, initialClientOffset, clientOffset, sourceClientOffset);
 			if (direction === 'rightward') {
 				style = {
 					...style,
-					borderRight: 'solid 1px #e2231a'
+					borderRight: options.borderStyle || defaultBorderStyle
 				}
 			}
 			if (direction === 'leftward') {
 				style = {
 					...style,
-					borderLeft: 'solid 1px #e2231a'
+					borderLeft: options.borderStyle || defaultBorderStyle
 				}
 			}
 		}
@@ -110,22 +114,22 @@ export default options => WrappedComponent => {
 		}
 
 		componentDidMount() {
-			if (options.listName){
+			if (options.listName && options.columns) {
 				let storage = localStorage[options.listName];
-				if (storage){
+				if (storage) {
 					let storageColumns = storage.split(",");
-					if (storageColumns.length != options.columns.length){
+					if (storageColumns.length != options.columns.length) {
 						this.setInitColumns();
-						localStorage[options.listName] = options.columns.map(el=>{
+						localStorage[options.listName] = options.columns.map(el => {
 							return el.dataIndex;
 						}).join(",");
 					} else {
 						let allColumns = {};
-						for (let el of options.columns){
+						for (let el of options.columns) {
 							allColumns[el.dataIndex] = el;
 						}
 						this.setState({
-							columns: storageColumns.map(el=>{
+							columns: storageColumns.map(el => {
 								return allColumns[el];
 							})
 						})
@@ -138,10 +142,12 @@ export default options => WrappedComponent => {
 			}
 		}
 
-		setInitColumns(){
-			this.setState({
-				columns: options.columns
-			})
+		setInitColumns() {
+			if (options.columns){
+				this.setState({
+					columns: options.columns
+				})
+			}
 		}
 
 		moveCell(oldIndex, newIndex) {
@@ -158,8 +164,8 @@ export default options => WrappedComponent => {
 			this.setState({
 				columns: showColumns
 			})
-			if (options.listName){
-				localStorage[options.listName] = showColumns.map(el=>{
+			if (options.listName) {
+				localStorage[options.listName] = showColumns.map(el => {
 					return el.dataIndex;
 				}).join(",");
 			}
@@ -169,7 +175,7 @@ export default options => WrappedComponent => {
 			const newProps = {
 				moveColumn: {
 					columns: this.state.columns,
-					tableFieldDecorator: tableOptions => TableComponent => {
+					tableFieldDecorator: (tableOptions = {}) => TableComponent => {
 						return React.cloneElement(TableComponent, {
 							...this.props,
 							components: {
@@ -187,7 +193,7 @@ export default options => WrappedComponent => {
 										}
 									}
 								}
-								if (tableOptions.render && tableOptions.render[el.dataIndex]) {
+								if (tableOptions && tableOptions.render && tableOptions.render[el.dataIndex]) {
 									result['render'] = tableOptions.render[el.dataIndex]
 								}
 								return result;
