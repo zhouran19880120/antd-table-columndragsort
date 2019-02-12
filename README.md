@@ -27,10 +27,14 @@ import moveColumn from 'antd-table-columndragsort'
   
 #### 2. 仿照[Form](https://ant-design.gitee.io/components/form-cn/)组件的Form.create方法，包裹一层moveColumn({options})。例如：
 ```
-export default withRouter(connect(mapStateToProps, mapDispatchToProps, undefined, {
-	withRef: true
-})(moveColumn({
-	columns,
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, undefined, {withRef: true})(moveColumn({
+	columns: [{
+		title: '序号',
+		dataIndex: 'id'
+	}, {
+		title: '名称',
+		dataIndex: 'name'
+	}],
 	listName: 'thisPage'
 })(Form.create()(MyPage))));
 ```
@@ -56,15 +60,12 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps, undefined
 ```javascript
 {this.props.moveColumn.tableFieldDecorator({
   render: {
-    edit: (text, record, index) => {
-      return (<span className="control_btn">
-        {this.props.permission['update'] && <span onClick={()=>this.editUser(record)}>编辑</span>}
-        {this.props.permission['delete'] && <span onClick={()=>this.deleteUser(record.id)}>删除</span>}
-        </span>);
+    name: (text, record, index) => {
+      return this.props.userName;
     }
   }
 })(<Table
-  dataSource={this.props.userList.result}
+  dataSource={this.props.data}
   pagination={false}
   rowKey="id"
   loading={this.props.loading}
@@ -78,7 +79,7 @@ export default withRouter(connect(mapStateToProps, mapDispatchToProps, undefined
   
 |参数名|格式|值|
 |:----|:----|:----|
-|render|Object|如果render里不会用到this.props，则无需在此处设置，直接写到moveColumn的options里即可。如果在render里需要读取this.props，则按照dataIndex分类书写render方法（详见示例）|
+|render|Object|如果render里不会用到this实例，则无需在此处设置，直接写到moveColumn的options里即可。如果在render里需要读取this，则按照dataIndex分类书写render方法（详见示例）|
   
   你无需再在Table组件里设置columns参数。
     
